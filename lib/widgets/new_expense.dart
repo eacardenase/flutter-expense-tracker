@@ -17,6 +17,18 @@ class _NewExpenseState extends State<NewExpense> {
     Navigator.pop(context);
   }
 
+  void _presentDatePicker() {
+    final todayDate = DateTime.now();
+    final firstDate =
+        DateTime(todayDate.year - 1, todayDate.month, todayDate.day);
+
+    showDatePicker(
+        context: context,
+        initialDate: todayDate,
+        firstDate: firstDate,
+        lastDate: todayDate);
+  }
+
   /*
   Called before the widget and it's state
   are about to being destroyed.
@@ -45,15 +57,41 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ),
           ),
-          TextField(
-            controller: _amountController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              prefixText: '\$ ',
-              label: Text(
-                'Amount',
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    prefixText: '\$ ',
+                    label: Text(
+                      'Amount',
+                    ),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(
+                width: 16,
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: _presentDatePicker,
+                      icon: const Icon(
+                        Icons.calendar_month_rounded,
+                      ),
+                    ),
+                    const Text(
+                      'Selected date',
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
           const SizedBox(
             height: 10,
