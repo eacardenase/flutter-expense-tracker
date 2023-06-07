@@ -39,20 +39,26 @@ class _ExpensesState extends State<Expenses> {
       date: DateTime.now(),
       category: ExpenseCategory.learning,
     ),
-    Expense(
-      title: 'Flutter Course for Complete Beginners',
-      amount: 39.900,
-      date: DateTime.now(),
-      category: ExpenseCategory.learning,
-    ),
+    // Expense(
+    //   title: 'Flutter Course for Complete Beginners',
+    //   amount: 39.900,
+    //   date: DateTime.now(),
+    //   category: ExpenseCategory.learning,
+    // ),
   ];
+
+  void _addNewExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
 
   void _openAddExpenseOverlay() {
     // context is globally available
     // because we're inside of a state class
     showModalBottomSheet(
       context: context,
-      builder: (context) => const NewExpense(),
+      builder: (context) => NewExpense(onSaveExpense: _addNewExpense),
     );
   }
 

@@ -7,7 +7,12 @@ import 'package:flutter_expense_tracker/models/expense.dart';
 final dateFormatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({
+    super.key,
+    required this.onSaveExpense,
+  });
+
+  final void Function(Expense expense) onSaveExpense;
 
   @override
   State<NewExpense> createState() {
@@ -18,10 +23,16 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  var _selectedDate = 'No Date Selected';
+  DateTime? _selectedDate;
   ExpenseCategory _selectedCategory = ExpenseCategory.leisure;
 
-  void _closeAddExpendeOverlay() {
+  String get _formatedDate {
+    return _selectedDate == null
+        ? 'No Date Selected'
+        : dateFormatter.format(_selectedDate!);
+  }
+
+  void _closeOverlay() {
     Navigator.pop(context);
   }
 
@@ -38,7 +49,7 @@ class _NewExpenseState extends State<NewExpense> {
     );
 
     setState(() {
-      _selectedDate = dateFormatter.format(pickedDate!);
+      _selectedDate = pickedDate;
     });
   }
 
@@ -46,6 +57,51 @@ class _NewExpenseState extends State<NewExpense> {
     setState(() {
       _selectedCategory = category;
     });
+  }
+
+  void _submitExpenseData() {
+    final enteredAmount = double.tryParse(
+        _amountController.text); // returns null if unable to parse
+    final amountIsValid = enteredAmount != null && enteredAmount >= 0;
+    final dateIsValid = _selectedDate != null;
+    final enteredTitle = _titleController.text;
+    final titleIsValid = enteredTitle.trim().isNotEmpty;
+
+    if (!titleIsValid || !amountIsValid || !dateIsValid) {
+      showDialog(
+        context: context,
+        builder: ((context) => AlertDialog(
+              title: const Text(
+                'Invalid Input',
+              ),
+              content: const Text(
+                'Please make sure a valid title, amount date and category was entered.',
+              ),
+              actions: [
+                IconButton(
+                  onPressed: _closeOverlay,
+                  icon: const Icon(
+                    Icons.close,
+                  ),
+                  color: Colors.red,
+                )
+              ],
+            )),
+      );
+
+      return;
+    }
+
+    final newExpense = Expense(
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: _selectedDate!,
+      category: _selectedCategory,
+    );
+
+    widget.onSaveExpense(newExpense);
+
+    _closeOverlay();
   }
 
   /*
@@ -105,7 +161,7 @@ class _NewExpenseState extends State<NewExpense> {
                       ),
                     ),
                     Text(
-                      _selectedDate,
+                      _formatedDate,
                     ),
                   ],
                 ),
@@ -141,19 +197,17 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               TextButton(
-                onPressed: _closeAddExpendeOverlay,
+                onPressed: _closeOverlay,
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.red,
+                ),
                 child: const Text(
                   'Cancel',
                 ),
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
-                  print(_selectedDate);
-                  print(_selectedCategory);
-                },
+                onPressed: _submitExpenseData,
                 child: const Text(
                   'Save Expense',
                 ),
