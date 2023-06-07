@@ -13,6 +13,10 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
 
+  void _closeAddExpendeOverlay() {
+    Navigator.pop(context);
+  }
+
   /*
   Called before the widget and it's state
   are about to being destroyed.
@@ -57,7 +61,7 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               TextButton(
-                onPressed: () {},
+                onPressed: _closeAddExpendeOverlay,
                 child: const Text(
                   'Cancel',
                 ),
