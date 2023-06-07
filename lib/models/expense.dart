@@ -7,6 +7,7 @@ enum ExpenseCategory {
   travel,
   leisure,
   work,
+  study,
 }
 
 class Expense {
