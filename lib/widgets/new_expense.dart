@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
+import 'package:flutter_expense_tracker/models/expense.dart';
+
 final dateFormatter = DateFormat.yMd();
 
 class NewExpense extends StatefulWidget {
@@ -17,6 +19,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   var _selectedDate = 'No Date Selected';
+  ExpenseCategory _selectedCategory = ExpenseCategory.leisure;
 
   void _closeAddExpendeOverlay() {
     Navigator.pop(context);
@@ -27,17 +30,6 @@ class _NewExpenseState extends State<NewExpense> {
     final firstDate =
         DateTime(todayDate.year - 1, todayDate.month, todayDate.day);
 
-    // showDatePicker(
-    //   context: context,
-    //   initialDate: todayDate,
-    //   firstDate: firstDate,
-    //   lastDate: todayDate,
-    // ).then((value) {
-    //   setState(() {
-    //     _selectedDate = dateFormatter.format(value!);
-    //   });
-    // });
-
     final pickedDate = await showDatePicker(
       context: context,
       initialDate: todayDate,
@@ -47,6 +39,12 @@ class _NewExpenseState extends State<NewExpense> {
 
     setState(() {
       _selectedDate = dateFormatter.format(pickedDate!);
+    });
+  }
+
+  void _selectExpenseCategory(ExpenseCategory category) {
+    setState(() {
+      _selectedCategory = category;
     });
   }
 
@@ -111,11 +109,34 @@ class _NewExpenseState extends State<NewExpense> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(
-            height: 10,
+            height: 16,
+          ),
+          DropdownButton(
+            isExpanded: true,
+            value: _selectedCategory,
+            items: ExpenseCategory.values
+                .map(
+                  (category) => DropdownMenuItem(
+                    value: category,
+                    child: Text(
+                      category.name.toUpperCase(),
+                    ),
+                  ),
+                )
+                .toList(),
+            onChanged: (value) {
+              if (value == null) {
+                return;
+              }
+              _selectExpenseCategory(value);
+            },
+          ),
+          const SizedBox(
+            height: 16,
           ),
           Row(
             children: [
@@ -130,6 +151,8 @@ class _NewExpenseState extends State<NewExpense> {
                 onPressed: () {
                   print(_titleController.text);
                   print(_amountController.text);
+                  print(_selectedDate);
+                  print(_selectedCategory);
                 },
                 child: const Text(
                   'Save Expense',
