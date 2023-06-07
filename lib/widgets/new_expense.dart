@@ -60,12 +60,12 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void _submitExpenseData() {
+    final enteredTitle = _titleController.text.trim();
     final enteredAmount = double.tryParse(
         _amountController.text); // returns null if unable to parse
     final amountIsValid = enteredAmount != null && enteredAmount >= 0;
     final dateIsValid = _selectedDate != null;
-    final enteredTitle = _titleController.text;
-    final titleIsValid = enteredTitle.trim().isNotEmpty;
+    final titleIsValid = enteredTitle.isNotEmpty;
 
     if (!titleIsValid || !amountIsValid || !dateIsValid) {
       showDialog(
@@ -119,7 +119,10 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(
+        vertical: 40,
+        horizontal: 16,
+      ),
       child: Column(
         children: [
           TextField(
