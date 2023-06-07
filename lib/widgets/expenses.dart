@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_expense_tracker/models/expense.dart';
 import 'package:flutter_expense_tracker/widgets/expenses_list/expenses_list.dart';
+import 'package:flutter_expense_tracker/widgets/new_expense.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
@@ -51,11 +52,7 @@ class _ExpensesState extends State<Expenses> {
     // because we're inside of a state class
     showModalBottomSheet(
       context: context,
-      builder: (context) => const Center(
-        child: Text(
-          'TEST',
-        ),
-      ),
+      builder: (context) => const NewExpense(),
     );
   }
 
