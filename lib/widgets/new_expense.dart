@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:intl/intl.dart';
+
+final dateFormatter = DateFormat.yMd();
+
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
 
@@ -12,21 +16,38 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  var _selectedDate = 'No Date Selected';
 
   void _closeAddExpendeOverlay() {
     Navigator.pop(context);
   }
 
-  void _presentDatePicker() {
+  void _presentDatePicker() async {
     final todayDate = DateTime.now();
     final firstDate =
         DateTime(todayDate.year - 1, todayDate.month, todayDate.day);
 
-    showDatePicker(
-        context: context,
-        initialDate: todayDate,
-        firstDate: firstDate,
-        lastDate: todayDate);
+    // showDatePicker(
+    //   context: context,
+    //   initialDate: todayDate,
+    //   firstDate: firstDate,
+    //   lastDate: todayDate,
+    // ).then((value) {
+    //   setState(() {
+    //     _selectedDate = dateFormatter.format(value!);
+    //   });
+    // });
+
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: todayDate,
+      firstDate: firstDate,
+      lastDate: todayDate,
+    );
+
+    setState(() {
+      _selectedDate = dateFormatter.format(pickedDate!);
+    });
   }
 
   /*
@@ -85,8 +106,8 @@ class _NewExpenseState extends State<NewExpense> {
                         Icons.calendar_month_rounded,
                       ),
                     ),
-                    const Text(
-                      'Selected date',
+                    Text(
+                      _selectedDate,
                     ),
                   ],
                 ),
