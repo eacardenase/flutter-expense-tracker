@@ -15,16 +15,34 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [
     Expense(
-      title: 'Udemy Course',
-      amount: 9.99,
+      title: 'Course Selling Online App Using Flutter for iOS and Android',
+      amount: 39.900,
       date: DateTime.now(),
       category: ExpenseCategory.learning,
     ),
     Expense(
-      title: 'Cinema',
-      amount: 9.99,
+      title: 'Master Flutter By Building A Video And Voice Call Chat App',
+      amount: 39.900,
       date: DateTime.now(),
-      category: ExpenseCategory.leisure,
+      category: ExpenseCategory.learning,
+    ),
+    Expense(
+      title: 'Master Flutter App Dev By Building A real Time Chat App',
+      amount: 39.900,
+      date: DateTime.now(),
+      category: ExpenseCategory.learning,
+    ),
+    Expense(
+      title: 'Flutter and Nodejs Course | Job App With Chatting',
+      amount: 39.900,
+      date: DateTime.now(),
+      category: ExpenseCategory.learning,
+    ),
+    Expense(
+      title: 'Flutter Course for Complete Beginners',
+      amount: 39.900,
+      date: DateTime.now(),
+      category: ExpenseCategory.learning,
     ),
   ];
 
