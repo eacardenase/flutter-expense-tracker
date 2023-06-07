@@ -46,6 +46,19 @@ class _ExpensesState extends State<Expenses> {
     ),
   ];
 
+  void _openAddExpenseOverlay() {
+    // context is globally available
+    // because we're inside of a state class
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => const Center(
+        child: Text(
+          'TEST',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +68,7 @@ class _ExpensesState extends State<Expenses> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: _openAddExpenseOverlay,
             icon: const Icon(
               Icons.add,
             ),
