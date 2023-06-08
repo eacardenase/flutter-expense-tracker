@@ -16,13 +16,33 @@ void main() {
   runApp(
     MaterialApp(
       theme: ThemeData().copyWith(
-        useMaterial3: true,
-        colorScheme: kColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: kColorScheme.onPrimaryContainer,
-          foregroundColor: kColorScheme.primaryContainer,
-        ),
-      ),
+          useMaterial3: true,
+          colorScheme: kColorScheme,
+          appBarTheme: const AppBarTheme().copyWith(
+            backgroundColor: kColorScheme.primary,
+            foregroundColor: kColorScheme.onSecondary,
+          ),
+          cardTheme: const CardTheme().copyWith(
+            color: kColorScheme.tertiaryContainer,
+            margin: const EdgeInsets.all(
+              12,
+            ),
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kColorScheme.primaryContainer,
+            ),
+          ),
+          textTheme: const TextTheme().copyWith(
+            titleLarge: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: kColorScheme.onSecondaryContainer,
+              fontSize: 18,
+            ),
+          ),
+          iconTheme: IconThemeData(
+            color: kColorScheme.secondary,
+          )),
       home: const Expenses(),
     ),
   );
