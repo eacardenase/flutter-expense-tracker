@@ -53,6 +53,12 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+  }
+
   void _openAddExpenseOverlay() {
     // context is globally available
     // because we're inside of a state class
@@ -87,6 +93,7 @@ class _ExpensesState extends State<Expenses> {
           Expanded(
             child: ExpensesList(
               expenses: _registeredExpenses,
+              onRemoveExpense: _removeExpense,
             ),
           )
         ],
