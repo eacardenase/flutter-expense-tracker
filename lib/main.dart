@@ -23,7 +23,7 @@ void main() {
             foregroundColor: kColorScheme.onSecondary,
           ),
           cardTheme: const CardTheme().copyWith(
-            color: kColorScheme.tertiaryContainer,
+            color: kColorScheme.primaryContainer,
             margin: const EdgeInsets.all(
               12,
             ),
@@ -41,7 +41,7 @@ void main() {
             ),
           ),
           iconTheme: IconThemeData(
-            color: kColorScheme.secondary,
+            color: kColorScheme.primary,
           )),
       home: const Expenses(),
     ),

@@ -73,9 +73,16 @@ class _NewExpenseState extends State<NewExpense> {
         builder: ((context) => AlertDialog(
               title: const Text(
                 'Invalid Input',
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               content: const Text(
                 'Please make sure a valid title, amount date and category was entered.',
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                ),
               ),
               actions: [
                 IconButton(
@@ -132,6 +139,9 @@ class _NewExpenseState extends State<NewExpense> {
             decoration: const InputDecoration(
               label: Text(
                 'Title',
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                ),
               ),
             ),
           ),
@@ -145,6 +155,9 @@ class _NewExpenseState extends State<NewExpense> {
                     prefixText: '\$ ',
                     label: Text(
                       'Amount',
+                      style: TextStyle(
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ),
                 ),
@@ -165,6 +178,9 @@ class _NewExpenseState extends State<NewExpense> {
                     ),
                     Text(
                       _formatedDate,
+                      style: const TextStyle(
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ],
                 ),
@@ -183,6 +199,9 @@ class _NewExpenseState extends State<NewExpense> {
                     value: category,
                     child: Text(
                       category.name.toUpperCase(),
+                      style: const TextStyle(
+                        color: Colors.deepPurple,
+                      ),
                     ),
                   ),
                 )
