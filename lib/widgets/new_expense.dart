@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
@@ -59,15 +62,35 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
-  void _submitExpenseData() {
-    final enteredTitle = _titleController.text.trim();
-    final enteredAmount = double.tryParse(
-        _amountController.text); // returns null if unable to parse
-    final amountIsValid = enteredAmount != null && enteredAmount >= 0;
-    final dateIsValid = _selectedDate != null;
-    final titleIsValid = enteredTitle.isNotEmpty;
-
-    if (!titleIsValid || !amountIsValid || !dateIsValid) {
+  void _showDialog() {
+    if (Platform.isIOS) {
+      showCupertinoDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+                title: const Text(
+                  'Invalid Input',
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                content: const Text(
+                  'Please make sure a valid title, amount date and category was entered.',
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: _closeOverlay,
+                    icon: const Icon(
+                      Icons.close,
+                    ),
+                    color: Colors.red,
+                  )
+                ],
+              ));
+    } else {
       showDialog(
         context: context,
         builder: ((context) => AlertDialog(
@@ -95,6 +118,19 @@ class _NewExpenseState extends State<NewExpense> {
               ],
             )),
       );
+    }
+  }
+
+  void _submitExpenseData() {
+    final enteredTitle = _titleController.text.trim();
+    final enteredAmount = double.tryParse(
+        _amountController.text); // returns null if unable to parse
+    final amountIsValid = enteredAmount != null && enteredAmount >= 0;
+    final dateIsValid = _selectedDate != null;
+    final titleIsValid = enteredTitle.isNotEmpty;
+
+    if (!titleIsValid || !amountIsValid || !dateIsValid) {
+      _showDialog();
 
       return;
     }
