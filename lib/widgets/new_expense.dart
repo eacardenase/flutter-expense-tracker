@@ -136,9 +136,9 @@ class _NewExpenseState extends State<NewExpense> {
           child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.fromLTRB(
+                26,
                 16,
-                16,
-                16,
+                26,
                 keyboardSpace + 16,
               ),
               child: Column(
@@ -213,86 +213,117 @@ class _NewExpenseState extends State<NewExpense> {
                         ),
                       ],
                     ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     children: [
                       if (maxWidth >= 600)
-                        DropdownButton(
-                          value: _selectedCategory,
-                          items: ExpenseCategory.values
-                              .map(
-                                (category) => DropdownMenuItem(
-                                  value: category,
-                                  child: Text(
-                                    category.name.toUpperCase(),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              DropdownButton(
+                                value: _selectedCategory,
+                                items: ExpenseCategory.values
+                                    .map(
+                                      (category) => DropdownMenuItem(
+                                        value: category,
+                                        child: Text(
+                                          category.name.toUpperCase(),
+                                          style: const TextStyle(
+                                            color: Colors.deepPurple,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChanged: (value) {
+                                  if (value == null) {
+                                    return;
+                                  }
+                                  _selectExpenseCategory(value);
+                                },
+                              ),
+                              const Spacer(),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  IconButton(
+                                    onPressed: _presentDatePicker,
+                                    icon: const Icon(
+                                      Icons.calendar_month_rounded,
+                                    ),
+                                  ),
+                                  Text(
+                                    _formatedDate,
                                     style: const TextStyle(
                                       color: Colors.deepPurple,
                                     ),
                                   ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      else
+                        Expanded(
+                          child: Container(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                DropdownButton(
+                                  value: _selectedCategory,
+                                  items: ExpenseCategory.values
+                                      .map(
+                                        (category) => DropdownMenuItem(
+                                          value: category,
+                                          child: Text(
+                                            category.name.toUpperCase(),
+                                            style: const TextStyle(
+                                              color: Colors.deepPurple,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (value) {
+                                    if (value == null) {
+                                      return;
+                                    }
+                                    _selectExpenseCategory(value);
+                                  },
                                 ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            if (value == null) {
-                              return;
-                            }
-                            _selectExpenseCategory(value);
-                          },
-                        ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: _presentDatePicker,
-                              icon: const Icon(
-                                Icons.calendar_month_rounded,
-                              ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      onPressed: _presentDatePicker,
+                                      icon: const Icon(
+                                        Icons.calendar_month_rounded,
+                                      ),
+                                    ),
+                                    Text(
+                                      _formatedDate,
+                                      style: const TextStyle(
+                                        color: Colors.deepPurple,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                            Text(
-                              _formatedDate,
-                              style: const TextStyle(
-                                color: Colors.deepPurple,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        )
                     ],
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  DropdownButton(
-                    isExpanded: true,
-                    value: _selectedCategory,
-                    items: ExpenseCategory.values
-                        .map(
-                          (category) => DropdownMenuItem(
-                            value: category,
-                            child: Text(
-                              category.name.toUpperCase(),
-                              style: const TextStyle(
-                                color: Colors.deepPurple,
-                              ),
-                            ),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      if (value == null) {
-                        return;
-                      }
-                      _selectExpenseCategory(value);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
                         onPressed: _closeOverlay,
@@ -303,7 +334,9 @@ class _NewExpenseState extends State<NewExpense> {
                           'Cancel',
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(
+                        width: 20,
+                      ),
                       ElevatedButton(
                         onPressed: _submitExpenseData,
                         child: const Text(
