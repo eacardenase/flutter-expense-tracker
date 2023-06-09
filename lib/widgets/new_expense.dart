@@ -125,118 +125,124 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 40,
-        horizontal: 16,
-      ),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(
-              label: Text(
-                'Title',
-                style: TextStyle(
-                  color: Colors.deepPurple,
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          16,
+          48,
+          16,
+          keyboardSpace + 16,
+        ),
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              maxLength: 50,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                label: Text(
+                  'Title',
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                  ),
                 ),
               ),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '\$ ',
-                    label: Text(
-                      'Amount',
-                      style: TextStyle(
-                        color: Colors.deepPurple,
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _amountController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      prefixText: '\$ ',
+                      label: Text(
+                        'Amount',
+                        style: TextStyle(
+                          color: Colors.deepPurple,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: _presentDatePicker,
-                      icon: const Icon(
-                        Icons.calendar_month_rounded,
-                      ),
-                    ),
-                    Text(
-                      _formatedDate,
-                      style: const TextStyle(
-                        color: Colors.deepPurple,
-                      ),
-                    ),
-                  ],
+                const SizedBox(
+                  width: 16,
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          DropdownButton(
-            isExpanded: true,
-            value: _selectedCategory,
-            items: ExpenseCategory.values
-                .map(
-                  (category) => DropdownMenuItem(
-                    value: category,
-                    child: Text(
-                      category.name.toUpperCase(),
-                      style: const TextStyle(
-                        color: Colors.deepPurple,
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: _presentDatePicker,
+                        icon: const Icon(
+                          Icons.calendar_month_rounded,
+                        ),
                       ),
-                    ),
+                      Text(
+                        _formatedDate,
+                        style: const TextStyle(
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                    ],
                   ),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value == null) {
-                return;
-              }
-              _selectExpenseCategory(value);
-            },
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              TextButton(
-                onPressed: _closeOverlay,
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.red,
                 ),
-                child: const Text(
-                  'Cancel',
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            DropdownButton(
+              isExpanded: true,
+              value: _selectedCategory,
+              items: ExpenseCategory.values
+                  .map(
+                    (category) => DropdownMenuItem(
+                      value: category,
+                      child: Text(
+                        category.name.toUpperCase(),
+                        style: const TextStyle(
+                          color: Colors.deepPurple,
+                        ),
+                      ),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                if (value == null) {
+                  return;
+                }
+                _selectExpenseCategory(value);
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: _closeOverlay,
+                  style: TextButton.styleFrom(
+                    foregroundColor: Colors.red,
+                  ),
+                  child: const Text(
+                    'Cancel',
+                  ),
                 ),
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: _submitExpenseData,
-                child: const Text(
-                  'Save Expense',
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: _submitExpenseData,
+                  child: const Text(
+                    'Save Expense',
+                  ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
