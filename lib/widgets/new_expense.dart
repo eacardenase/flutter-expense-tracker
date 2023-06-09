@@ -183,23 +183,22 @@ class _NewExpenseState extends State<NewExpense> {
                       ],
                     )
                   else
-                    TextField(
-                      controller: _titleController,
-                      maxLength: 50,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                        label: Text(
-                          'Title',
-                          style: TextStyle(
-                            color: Colors.deepPurple,
+                    Column(
+                      children: [
+                        TextField(
+                          controller: _titleController,
+                          maxLength: 50,
+                          keyboardType: TextInputType.text,
+                          decoration: const InputDecoration(
+                            label: Text(
+                              'Title',
+                              style: TextStyle(
+                                color: Colors.deepPurple,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
+                        TextField(
                           controller: _amountController,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
@@ -212,7 +211,33 @@ class _NewExpenseState extends State<NewExpense> {
                             ),
                           ),
                         ),
-                      ),
+                      ],
+                    ),
+                  Row(
+                    children: [
+                      if (maxWidth >= 600)
+                        DropdownButton(
+                          value: _selectedCategory,
+                          items: ExpenseCategory.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category,
+                                  child: Text(
+                                    category.name.toUpperCase(),
+                                    style: const TextStyle(
+                                      color: Colors.deepPurple,
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            if (value == null) {
+                              return;
+                            }
+                            _selectExpenseCategory(value);
+                          },
+                        ),
                       const SizedBox(
                         width: 16,
                       ),
