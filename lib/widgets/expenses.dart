@@ -121,13 +121,17 @@ class _ExpensesState extends State<Expenses> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registeredExpenses),
-          Expanded(
-            child: mainContent,
-          )
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Chart(
+              expenses: _registeredExpenses,
+            ),
+            Expanded(
+              child: mainContent,
+            )
+          ],
+        ),
       ),
     );
   }
